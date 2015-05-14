@@ -156,6 +156,9 @@ namespace FC.RocketDMProto
 		private static void EndMatch()
 		{
 			string scoreString = "";
+
+            ReturnZombies();
+            ReturnVehicles();
 			
 			RocketChatManager.Say("Match Over!");
 			foreach (ulong steamID in scoreTable.Keys)
@@ -264,11 +267,57 @@ namespace FC.RocketDMProto
 		{
 			return null;
 		}
+
+        private static List<RemovedZombie> RemovedZombiesList;
+        private static List<RemovedVehcile> RemovedVehiclesList;
+        private static Vector3 MatchCenter;
+
+        public static void RemoveZombies(uint radius = 0)
+        {
+            RemovedZombiesList = new List<RemovedZombie>();
+            for (int v = 0; v < ZombieManager.ZombieRegions.Length; v++)
+            {
+                foreach (Zombie zombie in ZombieManager.ZombieRegions[v].Zombies)
+                {
+                    //if (Vector3.Distance(zombie.transform.localPosition, MatchCenter) <= radius)
+                    //{
+                        Vector3 pos = zombie.transform.localPosition;
+                        RemovedZombiesList.Add(new RemovedZombie(zombie, new Vector3(pos.x, pos.y, pos.z)));
+                    //}
+                }
+            }
+        }
+
+        public static void ReturnZombies()
+        {
+            foreach (RemovedZombie zombie in RemovedZombiesList) zombie.Return();
+        }
+
+        public static void RemoveVehicles(uint radius = 0)
+        {
+            RemovedVehiclesList = new List<RemovedVehcile>();
+
+
+            foreach (InteractableVehicle vehicle in SDG.VehicleManager.Vehicles)
+            {
+                //if (Vector3.Distance(vehicle.transform.localPosition, MatchCenter) <= radius)
+                //{
+                    Vector3 pos = vehicle.transform.localPosition;
+                    RemovedVehiclesList.Add(new RemovedVehcile(vehicle, new Vector3(pos.x, pos.y, pos.z)));
+                //}
+            }
+        }
+
+        public static void ReturnVehicles()
+        {
+            foreach (RemovedVehcile vehicle in RemovedVehiclesList) vehicle.Return();
+        }
 		
 		public static void StartMatch()
 		{
 			RocketChatManager.Say("Match Started!");
-			
+            RemoveZombies();
+            RemoveVehicles();
 			matchEndTime = DateTime.Now.AddSeconds(matchTimeLimit);
 			isGameRunning = true;
 		}
@@ -276,8 +325,62 @@ namespace FC.RocketDMProto
 		public static void StopMatch()
 		{
 			RocketChatManager.Say("Match Stopped!");
+            ReturnZombies();
+            ReturnVehicles();
 			isGameRunning = false;
 			softResetQueued = true;
 		}
 	}
+}
+
+namespace FC.RocketDMProto
+{
+    public class RemovedZombie
+    {
+        public Zombie Zombie { get; private set; }
+        public Vector3 Location { get; private set; }
+
+        public RemovedZombie(Zombie zombie, Vector3 location)
+        {
+            Zombie = zombie;
+            Location = location;
+            Remove();
+        }
+
+        private void Remove()
+        {
+            Zombie.transform.localPosition = new Vector3(Location.x, Location.y + 5000, Location.z);
+        }
+
+        public void Return()
+        {
+            Zombie.transform.localPosition = Location;
+        }
+    }
+}
+
+namespace FC.RocketDMProto
+{
+    public class RemovedVehcile
+    {
+        public InteractableVehicle Vehicle { get; private set; }
+        public Vector3 Location { get; private set; }
+
+        public RemovedVehcile(InteractableVehicle vehicle, Vector3 location)
+        {
+            Vehicle = vehicle;
+            Location = location;
+            Remove();
+        }
+
+        private void Remove()
+        {
+            Vehicle.transform.localPosition = new Vector3(Location.x, Location.y + 5000, Location.z);
+        }
+
+        public void Return()
+        {
+            Vehicle.transform.localPosition = Location;
+        }
+    }
 }

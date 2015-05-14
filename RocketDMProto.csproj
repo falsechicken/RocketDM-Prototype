@@ -33,16 +33,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\Documents\Dev Libs\Rocket\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\Documents\Dev Libs\Rocket\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RocketAPI">
-      <HintPath>..\..\..\..\Documents\Dev Libs\Rocket\RocketAPI.dll</HintPath>
+      <HintPath>..\lib\RocketAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Subspace-0.4.5">
+      <HintPath>..\lib\Subspace-0.4.5.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -53,7 +56,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\Documents\Dev Libs\Rocket\UnityEngine.dll</HintPath>
+      <HintPath>..\lib\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
