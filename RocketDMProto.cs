@@ -272,7 +272,7 @@ namespace FC.RocketDMProto
         private static List<RemovedVehcile> RemovedVehiclesList;
         private static Vector3 MatchCenter;
 
-        public static void RemoveZombies(uint radius = 0)
+        private static void RemoveZombies(uint radius = 0)
         {
             RemovedZombiesList = new List<RemovedZombie>();
             for (int v = 0; v < ZombieManager.ZombieRegions.Length; v++)
@@ -288,12 +288,12 @@ namespace FC.RocketDMProto
             }
         }
 
-        public static void ReturnZombies()
+        private static void ReturnZombies()
         {
             foreach (RemovedZombie zombie in RemovedZombiesList) zombie.Return();
         }
 
-        public static void RemoveVehicles(uint radius = 0)
+        private static void RemoveVehicles(uint radius = 0)
         {
             RemovedVehiclesList = new List<RemovedVehcile>();
 
@@ -308,7 +308,7 @@ namespace FC.RocketDMProto
             }
         }
 
-        public static void ReturnVehicles()
+        private static void ReturnVehicles()
         {
             foreach (RemovedVehcile vehicle in RemovedVehiclesList) vehicle.Return();
         }
@@ -335,10 +335,10 @@ namespace FC.RocketDMProto
 
 namespace FC.RocketDMProto
 {
-    public class RemovedZombie
+    class RemovedZombie
     {
-        public Zombie Zombie { get; private set; }
-        public Vector3 Location { get; private set; }
+        private Zombie Zombie { get; private set; }
+        private Vector3 Location { get; private set; }
 
         public RemovedZombie(Zombie zombie, Vector3 location)
         {
@@ -361,10 +361,10 @@ namespace FC.RocketDMProto
 
 namespace FC.RocketDMProto
 {
-    public class RemovedVehcile
+    class RemovedVehcile
     {
-        public InteractableVehicle Vehicle { get; private set; }
-        public Vector3 Location { get; private set; }
+        private InteractableVehicle Vehicle { get; private set; }
+        private Vector3 Location { get; private set; }
 
         public RemovedVehcile(InteractableVehicle vehicle, Vector3 location)
         {
