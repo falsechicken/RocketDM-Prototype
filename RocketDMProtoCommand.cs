@@ -24,9 +24,6 @@ using SDG;
 
 namespace FC.RocketDMProto
 {
-	/// <summary>
-	/// Description of RocketDMProtoCommand.
-	/// </summary>
 	public class RocketDMProtoCommand : IRocketCommand
 	{
 		public RocketDMProtoCommand()
@@ -82,6 +79,12 @@ namespace FC.RocketDMProto
 			
 			if (_cmds[1].ToLower().Equals("stop"))
 				RocketDMProto.StopMatch();
+			
+			if (_cmds[1].ToLower().Equals("load"))
+				ProcessMatchLoadCommand(_caller, _cmds);
+			
+			if (_cmds[1].ToLower().Equals("save"))
+				ProcessMatchSaveCommand(_caller, _cmds);
 		}
 		
 		private void ProcessAddCommand(RocketPlayer _caller, string[]  _cmds)
@@ -117,7 +120,13 @@ namespace FC.RocketDMProto
 				RocketChatManager.Say(_caller, "Match time set to " + int.Parse(_cmds[2]) + ".");
 				return;
 			}
-
+			
+			if (_cmds[1].ToLower().Equals("center"))
+			{
+				RocketDMProto.SetMatchCenter(_caller.Position);
+				RocketChatManager.Say(_caller, "Match center set to " + _caller.Position + ".");
+				return;
+			}
 		}
 		
 		private void ProcessResetCommand(RocketPlayer _caller, string[] _cmds)
@@ -135,6 +144,18 @@ namespace FC.RocketDMProto
 				RocketChatManager.Say(_caller, "Match soft reset.");
 				return;
 			}
+		}
+		
+		private void ProcessMatchLoadCommand(RocketPlayer _caller, string[] _cmds)
+		{
+			
+			RocketDMProto.QueueMatchLoad(_caller, _cmds[2]);
+
+		}
+				
+		private void ProcessMatchSaveCommand(RocketPlayer _caller, string[] _cmds)
+		{
+			RocketDMProto.QueueMatchSave(_caller, _cmds[2]);
 		}
 		
 		private void ResetMatchHard()

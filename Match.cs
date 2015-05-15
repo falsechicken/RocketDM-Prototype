@@ -34,15 +34,5 @@ namespace FC.RocketDMProto
 		
 		public Vector3 MatchCenter;
 		
-		/*public Match(string _matchName, List<Vector3> _spawnPointList, double _matchTimeLimit, Vector3 _matchCenter)
-		{
-			spawnPoints = _spawnPointList;
-			
-			matchTimeLimit = _matchTimeLimit;
-			
-			MatchCenter = _matchCenter;
-			
-			matchName = _matchName;
-		}*/
 	}
 }

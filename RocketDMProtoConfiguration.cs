@@ -39,13 +39,14 @@ namespace FC.RocketDMProto
 			{
 				return new RocketDMProtoConfiguration()
 				{
-					enabled = true,
+					 enabled = true,
 					
 					 matches = new List<Match>
 					{
 						new Match
 						{
 							matchName = "DefaultExample",
+							
 							matchTimeLimit = 300,
 							
 							MatchCenter = new Vector3()

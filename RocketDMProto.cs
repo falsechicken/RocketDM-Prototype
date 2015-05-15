@@ -43,11 +43,21 @@ namespace FC.RocketDMProto
 		static bool softResetQueued = false;
 		static bool hardResetQueued = false;
 		
+		static bool matchLoadCalled = false;
+		static string matchLoadName;
+		static RocketPlayer matchloadCaller;
+		
+		static bool matchSaveCalled = false;
+		static string matchSaveName;
+		static RocketPlayer matchSaveCaller;
+		
 		static bool teamPlay;
 		
 		static List<Vector3> spawnPoints = new List<Vector3>();
 		
 		static Dictionary<ulong, ushort> scoreTable = new Dictionary<ulong, ushort>();
+		
+		static string matchName;
 		
 		
 		static double matchTimeLimit;
@@ -90,6 +100,29 @@ namespace FC.RocketDMProto
 				ResetScores(); //TODO NEEDS TO CLEAR THE WHOLE THING.
 				ResetSpawnPoints();
 				hardResetQueued = false;
+			}
+			
+			if (matchLoadCalled)
+			{
+				if (LoadMatch(matchLoadName))
+				{
+					RocketChatManager.Say(matchloadCaller, "Match " + matchLoadName + " Loaded. Do not forget to add players.");
+					matchLoadCalled = false;
+				}
+				else
+				{
+					RocketChatManager.Say(matchloadCaller, "No match with name " + matchLoadName + " found!");
+				}
+				
+				matchLoadCalled = false;
+			}
+			
+			if (matchSaveCalled)
+			{
+				SaveMatch(matchSaveName);
+				RocketChatManager.Say(matchSaveCaller, "Match " + matchSaveName + " saved.");
+				Configuration.Save();
+				matchSaveCalled = false;
 			}
 		}
 		
@@ -172,6 +205,44 @@ namespace FC.RocketDMProto
 			isGameRunning = false;
 			
 		}
+				
+		private bool LoadMatch(string _matchName)
+		{
+			foreach (Match match in this.Configuration.matches)
+			{
+				if (_matchName.ToLower().Equals(match.matchName.ToLower()))
+				{
+				    matchName = match.matchName;
+				    
+				    spawnPoints = match.spawnPoints;
+				    
+				    MatchCenter = match.MatchCenter;
+				    
+				    matchTimeLimit = match.matchTimeLimit;
+				    
+				    return true;
+				}
+			}
+			
+			return false; //If no match with provided name was found.
+		}
+		
+		private bool SaveMatch(string _matchName)
+		{
+			Match savedMatch = new Match();
+		
+			savedMatch.matchName = _matchName;
+			
+			savedMatch.MatchCenter = MatchCenter;
+			
+			savedMatch.spawnPoints = spawnPoints;
+			
+			savedMatch.matchTimeLimit = matchTimeLimit;
+			
+			Configuration.matches.Add(savedMatch);
+			
+			return true;
+		}
 		
 		public void DoMatchUpdate()
 		{
@@ -226,6 +297,11 @@ namespace FC.RocketDMProto
 			matchTimeLimit = _timeInSecs;
 		}
 		
+		public static void SetMatchCenter(Vector3 _matchCenter)
+		{
+			MatchCenter = _matchCenter;
+		}
+		
 		public static void AddSpawnPoint(Vector3 _point)
 		{
 			spawnPoints.Add(_point);
@@ -251,6 +327,8 @@ namespace FC.RocketDMProto
 			}
 			
 			RocketChatManager.Say("Current DM players: " + players);
+			
+			RocketChatManager.Say("Current Match settings: Name:" + matchName + " MatchCenter: " + MatchCenter);
 		}
 		
 		public static void QueueSoftReset()
@@ -261,6 +339,20 @@ namespace FC.RocketDMProto
 		public static void QueueHardReset()
 		{
 			hardResetQueued = true;
+		}
+		
+		public static void QueueMatchLoad(RocketPlayer _matchLoadCaller, string _matchLoadName)
+		{
+			matchLoadCalled = true;
+			matchLoadName = _matchLoadName;
+			matchloadCaller = _matchLoadCaller;
+		}
+		
+		public static void QueueMatchSave(RocketPlayer _matchSaveCaller, string _matchSaveName)
+		{
+			matchSaveCalled = true;
+			matchSaveCaller = _matchSaveCaller;
+			matchSaveName = _matchSaveName;
 		}
 		
 		public static List<RocketPlayer> GetTeam()
