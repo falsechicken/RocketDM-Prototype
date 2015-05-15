@@ -337,8 +337,8 @@ namespace FC.RocketDMProto
 {
     class RemovedZombie
     {
-        private Zombie Zombie { get; private set; }
-        private Vector3 Location { get; private set; }
+        public Zombie Zombie { get; private set; }
+        public Vector3 Location { get; private set; }
 
         public RemovedZombie(Zombie zombie, Vector3 location)
         {
@@ -363,8 +363,8 @@ namespace FC.RocketDMProto
 {
     class RemovedVehcile
     {
-        private InteractableVehicle Vehicle { get; private set; }
-        private Vector3 Location { get; private set; }
+        public InteractableVehicle Vehicle { get; private set; }
+        public Vector3 Location { get; private set; }
 
         public RemovedVehcile(InteractableVehicle vehicle, Vector3 location)
         {
