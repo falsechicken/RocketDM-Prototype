@@ -19,53 +19,30 @@
  *****/
 
 using System;
-using Rocket.RocketAPI;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 namespace FC.RocketDMProto
 {
-	public class RocketDMProtoConfiguration : IRocketConfiguration
+	public class Match
 	{
+		public string matchName;
 		
-		public bool enabled;
+		public List<Vector3> spawnPoints;
 		
-		public List<Match> matches;
+		public double matchTimeLimit;
 		
-		public IRocketConfiguration DefaultConfiguration
+		public Vector3 MatchCenter;
+		
+		/*public Match(string _matchName, List<Vector3> _spawnPointList, double _matchTimeLimit, Vector3 _matchCenter)
 		{
-			get
-			{
-				return new RocketDMProtoConfiguration()
-				{
-					enabled = true,
-					
-					 matches = new List<Match>
-					{
-						new Match
-						{
-							matchName = "DefaultExample",
-							matchTimeLimit = 300,
-							
-							MatchCenter = new Vector3()
-							{
-								x = 0,
-								y = 0,
-								z = 0,
-							},
-							
-							spawnPoints = new List<Vector3>()
-							{
-								new Vector3(1, 1, 1),
-								new Vector3(1, 2, 3),
-								new Vector3(3, 2, 1),
-							}
-
-						},
-					},
-				};
-			}
-		}
+			spawnPoints = _spawnPointList;
+			
+			matchTimeLimit = _matchTimeLimit;
+			
+			MatchCenter = _matchCenter;
+			
+			matchName = _matchName;
+		}*/
 	}
 }

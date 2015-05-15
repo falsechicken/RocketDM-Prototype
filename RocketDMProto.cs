@@ -28,7 +28,7 @@ using UnityEngine;
 
 namespace FC.RocketDMProto
 {
-	public class RocketDMProto : RocketPlugin
+	public class RocketDMProto : RocketPlugin<RocketDMProtoConfiguration>
 	{
 		
 		static System.Random rand = new System.Random();
