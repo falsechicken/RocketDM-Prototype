@@ -19,7 +19,10 @@
  *****/
 
 using System;
-using Rocket.RocketAPI;
+using Rocket.API;
+using Rocket.Unturned.Player;
+using Rocket.Unturned.Commands;
+using Rocket.Unturned;
 using SDG;
 
 namespace FC.RocketDMProto
@@ -96,18 +99,18 @@ namespace FC.RocketDMProto
 				if (PlayerTool.tryGetSteamPlayer(_cmds[2], out steamPlayer))
 				{
 					RocketDMProto.AddPlayerToTeam(RocketPlayer.FromName(_cmds[2]), null);
-					RocketChatManager.Say(_caller, "Player " + RocketPlayer.FromSteamPlayer(steamPlayer).CharacterName + " added to match.");
+					RocketChat.Say(_caller, "Player " + RocketPlayer.FromSteamPlayer(steamPlayer).CharacterName + " added to match.");
 					return;
 				}
 				
-				RocketChatManager.Say(_caller, "Player not found.");
+				RocketChat.Say(_caller, "Player not found.");
 				return;
 			}
 		    
 		 	if (_cmds[1].ToLower().Equals("spawn"))
 			{
 		 		RocketDMProto.AddSpawnPoint(_caller.Position);
-		 		RocketChatManager.Say(_caller, "Spawn Point Added.");
+		 		RocketChat.Say(_caller, "Spawn Point Added.");
 		 		return;
 			}
 		}
@@ -117,14 +120,14 @@ namespace FC.RocketDMProto
 			if (_cmds[1].ToLower().Equals("time"))
 			{
 				RocketDMProto.SetMatchTimeLimit(int.Parse(_cmds[2]));
-				RocketChatManager.Say(_caller, "Match time set to " + int.Parse(_cmds[2]) + ".");
+				RocketChat.Say(_caller, "Match time set to " + int.Parse(_cmds[2]) + ".");
 				return;
 			}
 			
 			if (_cmds[1].ToLower().Equals("center"))
 			{
 				RocketDMProto.SetMatchCenter(_caller.Position);
-				RocketChatManager.Say(_caller, "Match center set to " + _caller.Position + ".");
+				RocketChat.Say(_caller, "Match center set to " + _caller.Position + ".");
 				return;
 			}
 		}
@@ -134,14 +137,14 @@ namespace FC.RocketDMProto
 			if (_cmds[1].ToLower().Equals("hard"))
 			{
 				ResetMatchHard();
-				RocketChatManager.Say(_caller, "Match hard reset.");
+				RocketChat.Say(_caller, "Match hard reset.");
 				return;
 			}
 			
 			if (_cmds[1].ToLower().Equals("soft"))
 			{
 				ResetMatchSoft();
-				RocketChatManager.Say(_caller, "Match soft reset.");
+				RocketChat.Say(_caller, "Match soft reset.");
 				return;
 			}
 		}

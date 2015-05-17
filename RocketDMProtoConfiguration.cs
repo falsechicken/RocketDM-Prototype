@@ -19,21 +19,22 @@
  *****/
 
 using System;
-using Rocket.RocketAPI;
+using Rocket.API;
+using Rocket.Unturned;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
 namespace FC.RocketDMProto
 {
-	public class RocketDMProtoConfiguration : IRocketConfiguration
+	public class RocketDMProtoConfiguration : IRocketPluginConfiguration
 	{
 		
 		public bool enabled;
 		
 		public List<Match> matches;
 		
-		public IRocketConfiguration DefaultConfiguration
+		public IRocketPluginConfiguration DefaultConfiguration
 		{
 			get
 			{

@@ -20,8 +20,10 @@
 
 using System;
 using System.Collections.Generic;
-using Rocket.RocketAPI;
-using Rocket.RocketAPI.Events;
+using Rocket.Unturned.Player;
+using Rocket.Unturned.Events;
+using Rocket.Unturned.Plugins;
+using Rocket.Unturned;
 using SDG;
 using Steamworks;
 using UnityEngine;
@@ -106,12 +108,12 @@ namespace FC.RocketDMProto
 			{
 				if (LoadMatch(matchLoadName))
 				{
-					RocketChatManager.Say(matchloadCaller, "Match " + matchLoadName + " Loaded. Do not forget to add players.");
+					RocketChat.Say(matchloadCaller, "Match " + matchLoadName + " Loaded. Do not forget to add players.");
 					matchLoadCalled = false;
 				}
 				else
 				{
-					RocketChatManager.Say(matchloadCaller, "No match with name " + matchLoadName + " found!");
+					RocketChat.Say(matchloadCaller, "No match with name " + matchLoadName + " found!");
 				}
 				
 				matchLoadCalled = false;
@@ -120,7 +122,7 @@ namespace FC.RocketDMProto
 			if (matchSaveCalled)
 			{
 				SaveMatch(matchSaveName);
-				RocketChatManager.Say(matchSaveCaller, "Match " + matchSaveName + " saved.");
+				RocketChat.Say(matchSaveCaller, "Match " + matchSaveName + " saved.");
 				Configuration.Save();
 				matchSaveCalled = false;
 			}
@@ -163,7 +165,7 @@ namespace FC.RocketDMProto
 			
 			if (scoreTable.ContainsKey(killer.CSteamID.m_SteamID) == false)
 			{
-				RocketChatManager.Say("Deathmatch player " + player.CharacterName + " was killed by non-match player " + killer.CharacterName);
+				RocketChat.Say("Deathmatch player " + player.CharacterName + " was killed by non-match player " + killer.CharacterName);
 				return;
 			}
 			
@@ -193,14 +195,14 @@ namespace FC.RocketDMProto
             ReturnZombies();
             ReturnVehicles();
 			
-			RocketChatManager.Say("Match Over!");
+			RocketChat.Say("Match Over!");
 			foreach (ulong steamID in scoreTable.Keys)
 			{
 				
 				scoreString = scoreString + RocketPlayer.FromCSteamID((CSteamID)steamID).CharacterName + " : " + scoreTable[steamID] + " , ";
 			}
 			
-			RocketChatManager.Say("Scores: " + scoreString);
+			RocketChat.Say("Scores: " + scoreString);
 			
 			isGameRunning = false;
 			
@@ -279,7 +281,7 @@ namespace FC.RocketDMProto
 			foreach (ulong steamID in scoreTable.Keys)
 			{
 				tempPlayerList.Add(steamID);
-				RocketChatManager.Say("" + steamID);
+				RocketChat.Say("" + steamID);
 			}
 			
 			scoreTable.Clear();
@@ -326,9 +328,9 @@ namespace FC.RocketDMProto
 				players = players + RocketPlayer.FromCSteamID((CSteamID)steamID).CharacterName + ", ";
 			}
 			
-			RocketChatManager.Say("Current DM players: " + players);
+			RocketChat.Say("Current DM players: " + players);
 			
-			RocketChatManager.Say("Current Match settings: Name:" + matchName + " MatchCenter: " + MatchCenter);
+			RocketChat.Say("Current Match settings: Name:" + matchName + " MatchCenter: " + MatchCenter);
 		}
 		
 		public static void QueueSoftReset()
@@ -407,7 +409,7 @@ namespace FC.RocketDMProto
 		
 		public static void StartMatch()
 		{
-			RocketChatManager.Say("Match Started!");
+			RocketChat.Say("Match Started!");
             RemoveZombies();
             RemoveVehicles();
 			matchEndTime = DateTime.Now.AddSeconds(matchTimeLimit);
@@ -416,7 +418,7 @@ namespace FC.RocketDMProto
 		
 		public static void StopMatch()
 		{
-			RocketChatManager.Say("Match Stopped!");
+			RocketChat.Say("Match Stopped!");
             ReturnZombies();
             ReturnVehicles();
 			isGameRunning = false;
